@@ -1,0 +1,584 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the JSON data into a DataFrame
+data = [
+  {
+    "OrderDate": "1/6/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Television",
+    "Units": 95,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "113,810.00"
+  },
+  {
+    "OrderDate": "1/23/18",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Shelli",
+    "Item": "Home Theater",
+    "Units": 50,
+    "Unit_price": 500,
+    "Sale_amt": "25,000.00"
+  },
+  {
+    "OrderDate": "2/9/18",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Luis",
+    "Item": "Television",
+    "Units": 36,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "43,128.00"
+  },
+  {
+    "OrderDate": "2/26/18",
+    "Region": "Central",
+    "Manager": "Timothy",
+    "SalesMan": "David",
+    "Item": "Cell Phone",
+    "Units": 27,
+    "Unit_price": 225,
+    "Sale_amt": "6,075.00"
+  },
+  {
+    "OrderDate": "3/15/18",
+    "Region": "West",
+    "Manager": "Timothy",
+    "SalesMan": "Stephen",
+    "Item": "Television",
+    "Units": 56,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "67,088.00"
+  },
+  {
+    "OrderDate": "4/1/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Home Theater",
+    "Units": 60,
+    "Unit_price": 500,
+    "Sale_amt": "30,000.00"
+  },
+  {
+    "OrderDate": "4/18/18",
+    "Region": "Central",
+    "Manager": "Martha",
+    "SalesMan": "Steven",
+    "Item": "Television",
+    "Units": 75,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "89,850.00"
+  },
+  {
+    "OrderDate": "5/5/18",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Luis",
+    "Item": "Television",
+    "Units": 90,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "107,820.00"
+  },
+  {
+    "OrderDate": "5/22/18",
+    "Region": "West",
+    "Manager": "Douglas",
+    "SalesMan": "Michael",
+    "Item": "Television",
+    "Units": 32,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "38,336.00"
+  },
+  {
+    "OrderDate": "6/8/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Home Theater",
+    "Units": 60,
+    "Unit_price": 500,
+    "Sale_amt": "30,000.00"
+  },
+  {
+    "OrderDate": "6/25/18",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Sigal",
+    "Item": "Television",
+    "Units": 90,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "107,820.00"
+  },
+  {
+    "OrderDate": "7/12/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Diana",
+    "Item": "Home Theater",
+    "Units": 29,
+    "Unit_price": 500,
+    "Sale_amt": "14,500.00"
+  },
+  {
+    "OrderDate": "7/29/18",
+    "Region": "East",
+    "Manager": "Douglas",
+    "SalesMan": "Karen",
+    "Item": "Home Theater",
+    "Units": 81,
+    "Unit_price": 500,
+    "Sale_amt": "40,500.00"
+  },
+  {
+    "OrderDate": "8/15/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Television",
+    "Units": 35,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "41,930.00"
+  },
+  {
+    "OrderDate": "9/1/18",
+    "Region": "Central",
+    "Manager": "Douglas",
+    "SalesMan": "John",
+    "Item": "Desk",
+    "Units": 2,
+    "Unit_price": 125,
+    "Sale_amt": 250
+  },
+  {
+    "OrderDate": "9/18/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Video Games",
+    "Units": 16,
+    "Unit_price": 58.5,
+    "Sale_amt": 936
+  },
+  {
+    "OrderDate": "10/5/18",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Sigal",
+    "Item": "Home Theater",
+    "Units": 28,
+    "Unit_price": 500,
+    "Sale_amt": "14,000.00"
+  },
+  {
+    "OrderDate": "10/22/18",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Cell Phone",
+    "Units": 64,
+    "Unit_price": 225,
+    "Sale_amt": "14,400.00"
+  },
+  {
+    "OrderDate": "11/8/18",
+    "Region": "East",
+    "Manager": "Douglas",
+    "SalesMan": "Karen",
+    "Item": "Cell Phone",
+    "Units": 15,
+    "Unit_price": 225,
+    "Sale_amt": "3,375.00"
+  },
+  {
+    "OrderDate": "11/25/18",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Shelli",
+    "Item": "Video Games",
+    "Units": 96,
+    "Unit_price": 58.5,
+    "Sale_amt": "5,616.00"
+  },
+  {
+    "OrderDate": "12/12/18",
+    "Region": "Central",
+    "Manager": "Douglas",
+    "SalesMan": "John",
+    "Item": "Television",
+    "Units": 67,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "80,266.00"
+  },
+  {
+    "OrderDate": "12/29/18",
+    "Region": "East",
+    "Manager": "Douglas",
+    "SalesMan": "Karen",
+    "Item": "Video Games",
+    "Units": 74,
+    "Unit_price": 58.5,
+    "Sale_amt": "4,329.00"
+  },
+  {
+    "OrderDate": "1/15/19",
+    "Region": "Central",
+    "Manager": "Timothy",
+    "SalesMan": "David",
+    "Item": "Home Theater",
+    "Units": 46,
+    "Unit_price": 500,
+    "Sale_amt": "23,000.00"
+  },
+  {
+    "OrderDate": "2/1/19",
+    "Region": "Central",
+    "Manager": "Douglas",
+    "SalesMan": "John",
+    "Item": "Home Theater",
+    "Units": 87,
+    "Unit_price": 500,
+    "Sale_amt": "43,500.00"
+  },
+  {
+    "OrderDate": "2/18/19",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Home Theater",
+    "Units": 4,
+    "Unit_price": 500,
+    "Sale_amt": "2,000.00"
+  },
+  {
+    "OrderDate": "3/7/19",
+    "Region": "West",
+    "Manager": "Timothy",
+    "SalesMan": "Stephen",
+    "Item": "Home Theater",
+    "Units": 7,
+    "Unit_price": 500,
+    "Sale_amt": "3,500.00"
+  },
+  {
+    "OrderDate": "3/24/19",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Luis",
+    "Item": "Video Games",
+    "Units": 50,
+    "Unit_price": 58.5,
+    "Sale_amt": "2,925.00"
+  },
+  {
+    "OrderDate": "4/10/19",
+    "Region": "Central",
+    "Manager": "Martha",
+    "SalesMan": "Steven",
+    "Item": "Television",
+    "Units": 66,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "79,068.00"
+  },
+  {
+    "OrderDate": "4/27/19",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Diana",
+    "Item": "Cell Phone",
+    "Units": 96,
+    "Unit_price": 225,
+    "Sale_amt": "21,600.00"
+  },
+  {
+    "OrderDate": "5/14/19",
+    "Region": "Central",
+    "Manager": "Timothy",
+    "SalesMan": "David",
+    "Item": "Television",
+    "Units": 53,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "63,494.00"
+  },
+  {
+    "OrderDate": "5/31/19",
+    "Region": "Central",
+    "Manager": "Timothy",
+    "SalesMan": "David",
+    "Item": "Home Theater",
+    "Units": 80,
+    "Unit_price": 500,
+    "Sale_amt": "40,000.00"
+  },
+  {
+    "OrderDate": "6/17/19",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Shelli",
+    "Item": "Desk",
+    "Units": 5,
+    "Unit_price": 125,
+    "Sale_amt": 625
+  },
+  {
+    "OrderDate": "7/4/19",
+    "Region": "East",
+    "Manager": "Martha",
+    "SalesMan": "Alexander",
+    "Item": "Video Games",
+    "Units": 62,
+    "Unit_price": 58.5,
+    "Sale_amt": "3,627.00"
+  },
+  {
+    "OrderDate": "7/21/19",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Sigal",
+    "Item": "Video Games",
+    "Units": 55,
+    "Unit_price": 58.5,
+    "Sale_amt": "3,217.50"
+  },
+  {
+    "OrderDate": "8/7/19",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Shelli",
+    "Item": "Video Games",
+    "Units": 42,
+    "Unit_price": 58.5,
+    "Sale_amt": "2,457.00"
+  },
+  {
+    "OrderDate": "8/24/19",
+    "Region": "West",
+    "Manager": "Timothy",
+    "SalesMan": "Stephen",
+    "Item": "Desk",
+    "Units": 3,
+    "Unit_price": 125,
+    "Sale_amt": 375
+  },
+  {
+    "OrderDate": "9/10/19",
+    "Region": "Central",
+    "Manager": "Timothy",
+    "SalesMan": "David",
+    "Item": "Television",
+    "Units": 7,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "8,386.00"
+  },
+  {
+    "OrderDate": "9/27/19",
+    "Region": "West",
+    "Manager": "Timothy",
+    "SalesMan": "Stephen",
+    "Item": "Cell Phone",
+    "Units": 76,
+    "Unit_price": 225,
+    "Sale_amt": "17,100.00"
+  },
+  {
+    "OrderDate": "10/14/19",
+    "Region": "West",
+    "Manager": "Douglas",
+    "SalesMan": "Michael",
+    "Item": "Home Theater",
+    "Units": 57,
+    "Unit_price": 500,
+    "Sale_amt": "28,500.00"
+  },
+  {
+    "OrderDate": "10/31/19",
+    "Region": "Central",
+    "Manager": "Martha",
+    "SalesMan": "Steven",
+    "Item": "Television",
+    "Units": 14,
+    "Unit_price": "1,198.00",
+    "Sale_amt": "16,772.00"
+  },
+  {
+    "OrderDate": "11/17/19",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Luis",
+    "Item": "Home Theater",
+    "Units": 11,
+    "Unit_price": 500,
+    "Sale_amt": "5,500.00"
+  },
+  {
+    "OrderDate": "12/4/19",
+    "Region": "Central",
+    "Manager": "Hermann",
+    "SalesMan": "Luis",
+    "Item": "Home Theater",
+    "Units": 94,
+    "Unit_price": 500,
+    "Sale_amt": "47,000.00"
+  },
+  {
+    "OrderDate": "12/21/19",
+    "Region": "Central",
+    "Manager": "Martha",
+    "SalesMan": "Steven",
+    "Item": "Home Theater",
+    "Units": 28,
+    "Unit_price": 500,
+    "Sale_amt": "14,000.00"
+  }
+]
+
+df = pd.DataFrame(data)
+
+# Convert date column to datetime format
+df['OrderDate'] = pd.to_datetime(df['OrderDate'])
+
+# Extract Year, Quarter, and Month from OrderDate
+df['Year'] = df['OrderDate'].dt.year
+df['Quarter'] = df['OrderDate'].dt.quarter
+df['Month'] = df['OrderDate'].dt.month
+
+# Calculate Quarterly Sales
+quarterly_sales = df.groupby(['Year', 'Quarter'])['Sale_amt'].sum().reset_index()
+
+# Calculate Monthly Sales
+monthly_sales = df.groupby(['Year', 'Month'])['Sale_amt'].sum().reset_index()
+
+# Calculate Yearly Sales
+yearly_sales = df.groupby(['Year'])['Sale_amt'].sum().reset_index()
+
+# Region-wise Sales
+region_sales = df.groupby(['Region'])['Sale_amt'].sum().reset_index()
+
+# Maximum Sale Region-wise
+max_sale_region = df.groupby(['Region'])['Sale_amt'].max().reset_index()
+
+# Minimum Sale Region-wise
+min_sale_region = df.groupby(['Region'])['Sale_amt'].min().reset_index()
+
+# Maximum and Minimum Sale Monthly
+max_sale_monthly = df.groupby(['Year', 'Month'])['Sale_amt'].max().reset_index()
+min_sale_monthly = df.groupby(['Year', 'Month'])['Sale_amt'].min().reset_index()
+
+# Average Sale
+average_sale = df['Sale_amt'].mean()
+
+# Mean Sale
+mean_sale = df['Sale_amt'].mean()
+
+# Median Sale
+median_sale = df['Sale_amt'].median()
+
+# Interquartile Range (IQR)
+Q1 = df['Sale_amt'].quantile(0.25)
+Q3 = df['Sale_amt'].quantile(0.75)
+iqr = Q3 - Q1
+
+# Manager with Maximum Sale
+max_sale_manager = df.groupby(['Manager'])['Sale_amt'].max().reset_index()
+
+# Manager with Minimum Sale
+min_sale_manager = df.groupby(['Manager'])['Sale_amt'].min().reset_index()
+
+# Different Salesman Sale
+salesman_sales = df.groupby(['SalesMan'])['Sale_amt'].sum().reset_index()
+
+# Salesman with Maximum Sale
+max_sale_salesman = salesman_sales[salesman_sales['Sale_amt'] == salesman_sales['Sale_amt'].max()]
+
+# Salesman with Minimum Sale
+min_sale_salesman = salesman_sales[salesman_sales['Sale_amt'] == salesman_sales['Sale_amt'].min()]
+
+# Plotting
+
+# Plot Quarterly Sales
+plt.figure(figsize=(12, 6))
+sns.barplot(x='Quarter', y='Sale_amt', hue='Year', data=quarterly_sales)
+plt.title('Quarterly Sales')
+plt.xlabel('Quarter')
+plt.ylabel('Sales Amount')
+plt.show()
+
+# Plot Monthly Sales
+plt.figure(figsize=(12, 6))
+sns.lineplot(x='Month', y='Sale_amt', hue='Year', data=monthly_sales)
+plt.title('Monthly Sales')
+plt.xlabel('Month')
+plt.ylabel('Sales Amount')
+plt.show()
+
+# Plot Yearly Sales
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Year', y='Sale_amt', data=yearly_sales)
+plt.title('Yearly Sales')
+plt.xlabel('Year')
+plt.ylabel('Sales Amount')
+plt.show()
+
+# Plot Region-wise Sales
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Region', y='Sale_amt', data=region_sales)
+plt.title('Region-wise Sales')
+plt.xlabel('Region')
+plt.ylabel('Sales Amount')
+plt.show()
+
+# Plot Maximum Sale Region-wise
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Region', y='Sale_amt', data=max_sale_region)
+plt.title('Maximum Sale Region-wise')
+plt.xlabel('Region')
+plt.ylabel('Maximum Sales Amount')
+plt.show()
+
+# Plot Minimum Sale Region-wise
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Region', y='Sale_amt', data=min_sale_region)
+plt.title('Minimum Sale Region-wise')
+plt.xlabel('Region')
+plt.ylabel('Minimum Sales Amount')
+plt.show()
+
+# Plot Maximum and Minimum Sale Monthly
+plt.figure(figsize=(12, 6))
+sns.lineplot(x='Month', y='Sale_amt', data=max_sale_monthly, label='Max Sale')
+sns.lineplot(x='Month', y='Sale_amt', data=min_sale_monthly, label='Min Sale')
+plt.title('Maximum and Minimum Sale Monthly')
+plt.xlabel('Month')
+plt.ylabel('Sales Amount')
+plt.legend()
+plt.show()
+
+# Print Average Sale, Mean Sale, Median Sale, IQR
+print(f'Average Sale: {average_sale:.2f}')
+print(f'Mean Sale: {mean_sale:.2f}')
+print(f'Median Sale: {median_sale:.2f}')
+print(f'Interquartile Range (IQR): {iqr:.2f}')
+
+# Print Manager with Maximum Sale
+print('Manager with Maximum Sale:')
+print(max_sale_manager)
+
+# Print Manager with Minimum Sale
+print('Manager with Minimum Sale:')
+print(min_sale_manager)
+
+# Print Different Salesman Sale
+print('Salesman Sales:')
+print(salesman_sales)
+
+# Print Salesman with Maximum Sale
+print('Salesman with Maximum Sale:')
+print(max_sale_salesman)
+
+# Print Salesman with Minimum Sale
+print('Salesman with Minimum Sale:')
+print(min_sale_salesman)
